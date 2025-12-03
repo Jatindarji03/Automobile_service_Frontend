@@ -42,23 +42,51 @@ const Register = () => {
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }));
   };
 
+  // const validateStep1 = () => {
+  //   const newErrors = {};
+  //   if (!form.name.trim()) newErrors.name = "Name is required";
+  //   else if (form.name.trim().length < 2) newErrors.name = "Name must be at least 2 characters";
+
+  //   if (!form.email.trim()) newErrors.email = "Email is required";
+  //   else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Email is invalid";
+
+  //   if (!form.password) newErrors.password = "Password is required";
+  //   else if (form.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
+  //   if (!form.phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required";
+  //   else if (!/^\d{10}$/.test(form.phoneNumber.replace(/\D/g, ""))) newErrors.phoneNumber = "Phone number must be 10 digits";
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
+
   const validateStep1 = () => {
-    const newErrors = {};
-    if (!form.name.trim()) newErrors.name = "Name is required";
-    else if (form.name.trim().length < 2) newErrors.name = "Name must be at least 2 characters";
+  const newErrors = {};
+  
 
-    if (!form.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Email is invalid";
+  if (!form.name.trim()) newErrors.name = "Name is required";
+  else if (form.name.trim().length < 2) newErrors.name = "Name must be at least 2 characters";
 
-    if (!form.password) newErrors.password = "Password is required";
-    else if (form.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+  if (!form.email.trim()) newErrors.email = "Email is required";
+  else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Email is invalid";
 
-    if (!form.phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required";
-    else if (!/^\d{10}$/.test(form.phoneNumber.replace(/\D/g, ""))) newErrors.phoneNumber = "Phone number must be 10 digits";
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/;
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+if (!form.password.trim()) {
+  newErrors.password = "Password is required";
+} else if (!passwordRegex.test(form.password.trim())) {
+  newErrors.password = 
+    "Password must be 6+ chars, include letters, numbers & 1 special character";
+}
+
+
+  if (!form.phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required";
+  else if (!/^\d{10}$/.test(form.phoneNumber.replace(/\D/g, "")))
+    newErrors.phoneNumber = "Phone number must be 10 digits";
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
 
   const handleNext = () => {
     if (validateStep1()) {
@@ -134,7 +162,7 @@ const Register = () => {
           <div className="text-center mb-4">
             <h3 className="fw-bold text-white mb-2">Create Account</h3>
             <div className="mx-auto" style={{ width: "60px", height: "3px", background: "linear-gradient(90deg, #28a745, #20c997)", borderRadius: "2px" }} />
-            <p className="text-muted mt-2">Step {step} of 2</p>
+            <p className="text-white mt-2">Step {step} of 2</p>
           </div>
 
           {/* Progress Bar */}

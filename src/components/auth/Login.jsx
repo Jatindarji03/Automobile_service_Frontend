@@ -201,6 +201,17 @@ function Login() {
                   </Link>
                 </p>
               </div>
+              <div>
+                {/* Forgot password link */}
+                <p className="text-light">
+                  <Link
+                    to="/forgotpassword"
+                    className="text-decoration-none fw-semibold text-success"
+                  >
+                    Forgot your password?
+                  </Link>
+                </p>
+              </div>
 
               {/* Submit */}
               <motion.button
