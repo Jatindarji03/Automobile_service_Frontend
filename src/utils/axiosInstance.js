@@ -31,7 +31,25 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// RESPONSE INTERCEPTOR
+// // RESPONSE INTERCEPTOR
+// axiosInstance.interceptors.response.use(
+//   (response) => {
+//     console.log("✅ Response:", response);
+//     return response;
+//   },
+//   (error) => {
+//     console.error("❌ Response Error:", error.response || error.message);
+
+//     if (error.response?.status === 401) {
+//       // Token expired or unauthorized
+//       // alert("Session expired. Please log in again. 
+//       localStorage.removeItem("token");
+//       window.location.href = "/login";
+//     }
+
+//     return Promise.reject(error);
+//   }
+// );
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log("✅ Response:", response);
@@ -40,9 +58,16 @@ axiosInstance.interceptors.response.use(
   (error) => {
     console.error("❌ Response Error:", error.response || error.message);
 
-    if (error.response?.status === 401) {
-      // Token expired or unauthorized
-      // alert("Session expired. Please log in again. 
+    const status = error.response?.status;
+    const url = error.config?.url;
+
+    // ❌ Do NOT redirect for login API failures
+    if (url.includes("/api/users/login")) {
+      return Promise.reject(error);
+    }
+
+    // ✔ Redirect only for other routes when token is invalid/expired
+    if (status === 401) {
       localStorage.removeItem("token");
       window.location.href = "/login";
     }
@@ -50,5 +75,6 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;
